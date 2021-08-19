@@ -116,7 +116,7 @@ def vcross(v1, v2):
 	return [v1[1]*v2[2] - v1[2]*v2[1], v1[2]*v2[0] - v1[0]*v2[2], v1[0]*v2[1] - v1[1]*v2[0]]
 
 if len(sys.argv)!=4 and len(sys.argv)!=5:
-	print "\n" + sys.argv[0] + " lammps_Input pdb_Output pdbID.seq [snapshot]\n"
+	print ("\n" + sys.argv[0] + " lammps_Input pdb_Output pdbID.seq [snapshot]\n")
 	exit()
 
 lammps_file = sys.argv[1]
@@ -137,8 +137,8 @@ for line in fh.readlines():
   nres_tot += len(seq)
   nch += 1
 fh.close()
-print "Number of sequences:", nch
-print "Total length:", nres_tot
+print ("Number of sequences:", nch)
+print ("Total length:", nres_tot)
 
 ich = 1
 ch_map = {}
@@ -190,8 +190,8 @@ def convertToPDB():
     #if ia.desc == 'N': ires = ires + 1
     ires = ia.res_no
     resname = one2three(seqs_all[ires-1])
-    if not ch_map.has_key(ires):
-      print "Error! atom list and sequance file size mismatch!\n"
+    if not ires in ch_map:
+      print ("Error! atom list and sequance file size mismatch!\n")
       sys.exit()
     ch = ch_map[ires]
     atom = PDB_Atom(ia.No, PDB_type[ia.No_m], resname, ch, ires, ia.x, ia.y, ia.z, ia.ty)
@@ -221,14 +221,14 @@ def buildAllAtoms(build_terminal_atoms=True, build_bonds=False):
 
 	# Recovering N and Cp atoms except for termianl residues
 	for i in range(1, nres_tot):
-		if not Ca_atom_map.has_key(i):
-			print "Error! missing Ca atom in residue %d!\n" % i
+		if not i in Ca_atom_map:
+			print ("Error! missing Ca atom in residue %d!\n" % i)
 			sys.exit()
-		if not Ca_atom_map.has_key(i+1):
-			print "Error! missing Ca atom in residue %d!\n" % (i+1)
+		if not (i+1) in Ca_atom_map:
+			print ("Error! missing Ca atom in residue %d!\n" % (i+1))
 			sys.exit()
-		if not O_atom_map.has_key(i):
-			print "Error! missing O atom in residue %d!\n" % i
+		if not i in O_atom_map:
+			print ("Error! missing O atom in residue %d!\n" % i)
 			sys.exit()
 
 		if ch_map[i]==ch_map[i+1]:
@@ -280,7 +280,7 @@ def buildAllAtoms(build_terminal_atoms=True, build_bonds=False):
 
 				N = Atom(0, 'N', '2', j+1, nx, ny, nz, 'N')
 
-				if N_atom_map.has_key(j+1): print "Warrning: N atom already exists"
+				if (j+1) in N_atom_map: print ("Warrning: N atom already exists")
 
 				N_atom_map[j+1] = N
 			if i!=0:
@@ -324,7 +324,7 @@ def buildAllAtoms(build_terminal_atoms=True, build_bonds=False):
 						A = B*r1o/ro_sq
 					else:
 						A = 0.5*( B*r1o + sqrt(cprod_sq*(4.0*ro_sq*r2*r2 - B*B)) ) / ro_sq
-						if A>r1*r2: print "Warrning: A value too large"
+						if A>r1*r2: print ("Warrning: A value too large")
 
 				px = ( A*( -xo[0]*T3 + xn[0]*T2 ) + 0.5*B*(xo[0]*T1 - xn[0]*T3) + sign*T4*sqrt(D) ) / cprod_sq
 				py = ( -A*xo[2] + 0.5*B*xn[2] + px*T5 ) / T4
@@ -336,35 +336,35 @@ def buildAllAtoms(build_terminal_atoms=True, build_bonds=False):
 
 				Cp = Atom(0, 'C', '6', j, px, py, pz, 'C-Prime')
 
-				if Cp_atom_map.has_key(j): print "Warrning: Cp atom already exists"
+				if j in Cp_atom_map: print ("Warrning: Cp atom already exists")
 
 				Cp_atom_map[j] = Cp
 
 	# Assigning correct atom indexes and saving to atoms2 array
 	index = 1
 	for i in range(1, nres_tot+1):
-		if not Ca_atom_map.has_key(i):
-			print "Error! missing Ca atom in residue!\n" % i
+		if not i in Ca_atom_map:
+			print ("Error! missing Ca atom in residue!\n" % i)
 			sys.exit()
-		if not O_atom_map.has_key(i):
-			print "Error! missing O atom in residue!\n" % i
+		if not i in O_atom_map:
+			print ("Error! missing O atom in residue!\n" % i)
 			sys.exit()
-		if not Cb_atom_map.has_key(i):
-			print "Error! missing Cb or Hb atom in residue!\n" % i
+		if not i in Cb_atom_map:
+			print ("Error! missing Cb or Hb atom in residue!\n" % i)
 			sys.exit()
-		if not N_atom_map.has_key(i):
+		if not i in N_atom_map:
 			if build_terminal_atoms or (i>1 and ch_map[i]==ch_map[i-1]):
-				print "Error! missing N atom in residue!\n" % i
+				print ("Error! missing N atom in residue!\n" % i)
 				sys.exit()
-		if not Cp_atom_map.has_key(i):
+		if not i in Cp_atom_map:
 			if build_terminal_atoms or (i<nres_tot and ch_map[i]==ch_map[i+1]):
-				print "Error! missing Cp atom in residue!\n" % i
+				print ("Error! missing Cp atom in residue!\n" % i)
 				sys.exit()
 
 		add_atoms = []
-		if N_atom_map.has_key(i): add_atoms.append(N_atom_map[i])
+		if i in N_atom_map: add_atoms.append(N_atom_map[i])
 		add_atoms.append(Ca_atom_map[i])
-		if Cp_atom_map.has_key(i): add_atoms.append(Cp_atom_map[i])
+		if i in Cp_atom_map: add_atoms.append(Cp_atom_map[i])
 		add_atoms.append(O_atom_map[i])
 		add_atoms.append(Cb_atom_map[i])
 
@@ -387,8 +387,8 @@ def buildAllAtoms(build_terminal_atoms=True, build_bonds=False):
 			Ca_index = Ca_atom_map[i].No
 			Cb_index = Cb_atom_map[i].No
 			O_index = O_atom_map[i].No
-			if N_atom_map.has_key(i): N_index = N_atom_map[i].No
-			if Cp_atom_map.has_key(i): Cp_index = Cp_atom_map[i].No
+			if i in N_atom_map: N_index = N_atom_map[i].No
+			if i in Cp_atom_map: Cp_index = Cp_atom_map[i].No
 			if i<nres_tot and ch_map[i]==ch_map[i+1]: N1_index = N_atom_map[i+1].No
 
 			if N_index!=-1:

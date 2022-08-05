@@ -1614,20 +1614,9 @@ void FixBackbone::init()
   if (strstr(update->integrate_style,"respa"))
     nlevels_respa = ((Respa *) update->integrate)->nlevels;
 	
-  int irequest = neighbor->request((void *) this);
-  neighbor->requests[irequest]->id = 1;
-  neighbor->requests[irequest]->pair = 0;
-  neighbor->requests[irequest]->fix = 1;
-  neighbor->requests[irequest]->half = 1;
-  neighbor->requests[irequest]->full = 0;
-  //  neighbor->requests[irequest]->occasional = 0;
+ neighbor->add_request(this,NeighConst::REQ_DEFAULT)->set_id(1);
 
-  int irequest_full = neighbor->request((void *) this);
-  neighbor->requests[irequest_full]->id = 2;
-  neighbor->requests[irequest_full]->pair = 0;
-  neighbor->requests[irequest_full]->fix = 1;
-  neighbor->requests[irequest_full]->half = 0;
-  neighbor->requests[irequest_full]->full = 1;
+ neighbor->add_request(this,NeighConst::REQ_FULL)->set_id(2);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1729,7 +1718,7 @@ inline double atan2(double y, double x)
   if (x==0) {
     if (y>0) return M_PI_2;
     else if (y<0) return -M_PI_2;
-    else return NULL;
+    else return 0;
   } else {
     return atan(y/x) + (x>0 ? 0 : (y>=0 ? M_PI : -M_PI) );
   }
@@ -5047,6 +5036,7 @@ double FixBackbone::compute_native_ixn(double rij, int i_resno, int j_resno, int
     }
     return water_energy+burial_energy_i+burial_energy_j+electrostatic_energy;
   }
+return 0;
 }
 
 void FixBackbone::compute_decoy_ixns(int i_resno, int j_resno, double rij_orig, double rho_i_orig, double rho_j_orig)

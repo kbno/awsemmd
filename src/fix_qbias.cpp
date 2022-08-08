@@ -82,21 +82,21 @@ FixQBias::FixQBias(LAMMPS *lmp, int narg, char **arg) :
 			in >> epsilon;
 		} else if (strcmp(varsection, "[QBias]")==0) {
 			qbias_flag = 1;
-			print_log("QBias flag on\n");
+			print_log((char*)"QBias flag on\n");
 			in >> k_qbias;
 			in >> q0;
 			in >> l;
 			in >> sigma;
 		}  else if (strcmp(varsection, "[QBias_Exp]")==0) {
 			qbias_exp_flag = 1;
-			print_log("QBias_Exp flag on\n");
+			print_log((char*)"QBias_Exp flag on\n");
 			in >> k_qbias;
 			in >> q0;
 			in >> l;
 			in >> sigma_exp;
 		} else if (strcmp(varsection, "[QOBias]")==0) {
 			qobias_flag = 1;
-			print_log("QOBias flag on\n");
+			print_log((char*)"QOBias flag on\n");
 			in >> k_qbias;
 			in >> q0;
 			in >> l;
@@ -104,7 +104,7 @@ FixQBias::FixQBias(LAMMPS *lmp, int narg, char **arg) :
 			in >> cutoff;
 		}  else if (strcmp(varsection, "[QOBias_Exp]")==0) {
 			qobias_exp_flag = 1;
-			print_log("QOBias_Exp flag on\n");
+			print_log((char*)"QOBias_Exp flag on\n");
 			in >> k_qbias;
 			in >> q0;
 			in >> l;
@@ -114,7 +114,7 @@ FixQBias::FixQBias(LAMMPS *lmp, int narg, char **arg) :
 		varsection[0]='\0';
 	}
 	in.close();
-	print_log("\n");
+	print_log((char*)"\n");
 
 	ifstream in_rnative("rnative.dat");
 	if (!in_rnative) error->all(FLERR,"File rnative.dat can't be read");
@@ -371,7 +371,7 @@ inline double atan2(double y, double x)
 	if (x==0) {
 		if (y>0) return M_PI_2;
 		else if (y<0) return -M_PI_2;
-		else return NULL;
+		else return 0;
 	} else {
 		return atan(y/x) + (x>0 ? 0 : (y>=0 ? M_PI : -M_PI) );
 	}

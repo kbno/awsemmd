@@ -94,13 +94,13 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 		if (strcmp(varsection, "[Go-Model_LJ]")==0) {
 			if(gaussian_contacts_flag || bonds_flag || angles_flag || dihedrals_flag || contacts_flag ) error->all(FLERR,"Conflict in definition of contact potential !!");
 			lj_contacts_flag = 1;
-			print_log("LJ Go-Model flag on\n");
+			print_log((char*)"LJ Go-Model flag on\n");
 			allocate_contact();
 			in >> epsilon >> epsilon2 ;
 		} else if (strcmp(varsection, "[Go-Model_Gaussian]")==0) {
 			if(lj_contacts_flag || bonds_flag || angles_flag || dihedrals_flag || contacts_flag ) error->all(FLERR,"Conflict in definition of contact potential !!");
 			gaussian_contacts_flag = 1;
-			print_log("Gaussian Go-Model flag on\n");
+			print_log((char*)"Gaussian Go-Model flag on\n");
 			in >> epsilon >> epsilon2 ;
 			in >> n_basins;
 			allocate_contact();
@@ -112,7 +112,7 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 			in >> rmin_cutoff ;
 		} else if (strcmp(varsection, "[Bonds]")==0) {
 			bonds_flag = 1;
-			print_log("Bonds flag on\n");
+			print_log((char*)"Bonds flag on\n");
 			in >> k_bonds;
 			for(i=0;i<n_basins; ++i)	{
 				for (j=0;j<n-1;++j) {
@@ -124,7 +124,7 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 			}
 		} else if (strcmp(varsection, "[Angles]")==0) {
 			angles_flag = 1;
-			print_log("Angles flag on\n");
+			print_log((char*)"Angles flag on\n");
 			in >> k_angles;
 			for(i=0;i<n_basins; ++i)	{
 				for (j=0;j<n-2;++j) {
@@ -136,7 +136,7 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 			}
 		} else if (strcmp(varsection, "[Dihedrals]")==0) {
 			dihedrals_flag = 1;
-			print_log("Dihedrals flag on\n");
+			print_log((char*)"Dihedrals flag on\n");
 			in >> k_dihedrals[0] >> k_dihedrals[1];
 			for(i=0;i<n_basins; ++i)	{
 				for (j=0;j<n-3;++j) {
@@ -151,7 +151,7 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 		
 			//allocate_contact();
 			contacts_flag = 1;
-			print_log("Contacts flag on\n");
+			print_log((char*)"Contacts flag on\n");
 			if(lj_contacts_flag){
 				for (i=0;i<n-4;++i) for (j=i;j<n-4;++j) in >> isNative[i][j];
 				for (i=0;i<n-4;++i) for (j=i;j<n-4;++j) in >> sigma[i][j];
@@ -166,27 +166,27 @@ FixGoModel::FixGoModel(LAMMPS *lmp, int narg, char **arg) :
 		} else if (strcmp(varsection, "[Contacts_Deviation]")==0) {
 			contacts_dev_flag = 1;
 			dev_type = DT_CORR;
-			print_log("Contacts_Deviation flag on\n");
+			print_log((char*)"Contacts_Deviation flag on\n");
 			in >> sdivf; // Standart deviation in epsilon fractions
 			in >> tcorr; // Correlation time in femtoseconds
 			in >> dev0;  // Deviation on t=0
 		} else if (strcmp(varsection, "[Harmonic_Contacts_Deviation]")==0) {
 			contacts_dev_flag = 1;
 			dev_type = DT_SIN;
-			print_log("Harmonic_Contacts_Deviation flag on\n");
+			print_log((char*)"Harmonic_Contacts_Deviation flag on\n");
 			in >> sdivf; // Amplitud
 			in >> tcorr; // Period
 			in >> dev0;  // Phase on t=0 in half periods
 		} else if (strcmp(varsection, "[Constant_Contacts_Deviation]")==0) {
 			contacts_dev_flag = 1;
 			dev_type = DT_CONST;
-			print_log("Constant_Contacts_Deviation flag on\n");
+			print_log((char*)"Constant_Contacts_Deviation flag on\n");
 			in >> sdivf; // Deviation in epsilon fractions
 		}
 		varsection[0]='\0';
 	}
 	in.close();
-	print_log("\n");
+	print_log((char*)"\n");
 
 	if (dev_type==DT_CORR) {
 		xi = 1/tcorr;
@@ -497,7 +497,7 @@ inline double atan2(double y, double x)
 	if (x==0) {
 		if (y>0) return M_PI_2;
 		else if (y<0) return -M_PI_2;
-		else return NULL;
+		else return 0;
 	} else {
 		return atan(y/x) + (x>0 ? 0 : (y>=0 ? M_PI : -M_PI) );
 	}

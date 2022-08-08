@@ -261,11 +261,11 @@ void PairGoContacts::settings(int narg, char **arg)
   	in >> varsection;
   	if (strcmp(varsection, "[Go-Model_LJ]")==0) {
   		lj_contacts_flag = 1;
-		print_log("LJ Go-Model flag on\n");
+		print_log((char*)"LJ Go-Model flag on\n");
 		in >> epsilon >> epsilon2;
   	} else if (strcmp(varsection, "[Contacts]")==0) {
   		contacts_flag = 1;
-  		print_log("Contacts flag on\n");
+  		print_log((char*)"Contacts flag on\n");
   		in >> nres >> ncont;
   		in >> sigma0;
   			
@@ -290,27 +290,27 @@ void PairGoContacts::settings(int narg, char **arg)
   	} else if (strcmp(varsection, "[Contacts_Deviation]")==0) {
 		contacts_dev_flag = 1;
 		dev_type = DT_CORR;
-		print_log("Contacts_Deviation flag on\n");
+		print_log((char*)"Contacts_Deviation flag on\n");
 		in >> sdivf; // Standart deviation in epsilon fractions
 		in >> tcorr; // Correlation time in femtoseconds
 		in >> dev0;  // Deviation on t=0
 	} else if (strcmp(varsection, "[Harmonic_Contacts_Deviation]")==0) {
 		contacts_dev_flag = 1;
 		dev_type = DT_SIN;
-		print_log("Harmonic_Contacts_Deviation flag on\n");
+		print_log((char*)"Harmonic_Contacts_Deviation flag on\n");
 		in >> sdivf; // Amplitud
 		in >> tcorr; // Period
 		in >> dev0;  // Phase on t=0 in half periods
 	} else if (strcmp(varsection, "[Constant_Contacts_Deviation]")==0) {
 		contacts_dev_flag = 1;
 		dev_type = DT_CONST;
-		print_log("Constant_Contacts_Deviation flag on\n");
+		print_log((char*)"Constant_Contacts_Deviation flag on\n");
 		in >> sdivf; // Deviation in epsilon fractions
 	}
   	varsection[0]='\0';
   }
   in.close();
-  print_log("\n");
+  print_log((char*)"\n");
   
   if (dev_type==DT_CORR) {
 		xi = 1/tcorr;

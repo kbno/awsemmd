@@ -1,6 +1,5 @@
 Prepared by David Rosenberger (based on Prepared by Weihua Zheng)
-#changed neighborlist request to recent lammps syntax
-#compiles with LAMMPS stable from Aug 4 2022; however tutorials are broken
+#compiles with LAMMPS stable from Aug 4 2022 (tag version Jun 23, 2022) 
 ******************
 A. Install LAMMPS:
 git clone https://github.com/lammps/lammps.git

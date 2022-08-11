@@ -951,19 +951,19 @@ void AtomVecAWSEM::create_atom(int itype, double *coord)
    initialize other atom quantities
 ------------------------------------------------------------------------- */
 
-void AtomVecAWSEM::data_atom(double *coord, imageint imagetmp, char **values)
+void AtomVecAWSEM::data_atom(double *coord, imageint imagetmp,  const std::vector<std::string> &values)
 {
   int nlocal = atom->nlocal;
   if (nlocal == nmax) grow(0);
 
-  tag[nlocal] = ATOTAGINT(values[0]);
-  molecule[nlocal] = ATOTAGINT(values[1]);
-  residue[nlocal] = ATOTAGINT(values[2]);
-  type[nlocal] = atoi(values[3]);
+  tag[nlocal] = ATOTAGINT(values[0].c_str());
+  molecule[nlocal] = ATOTAGINT(values[1].c_str());
+  residue[nlocal] = ATOTAGINT(values[2].c_str());
+  type[nlocal] = atoi(values[3].c_str());
   if (type[nlocal] <= 0 || type[nlocal] > atom->ntypes)
     error->one(FLERR,"Invalid atom type in Atoms section of data file");
 
-  q[nlocal] = atof(values[4]);
+  q[nlocal] = atof(values[4].c_str());
 
   x[nlocal][0] = coord[0];
   x[nlocal][1] = coord[1];
@@ -988,11 +988,11 @@ void AtomVecAWSEM::data_atom(double *coord, imageint imagetmp, char **values)
    initialize other atom quantities for this sub-style
 ------------------------------------------------------------------------- */
 
-int AtomVecAWSEM::data_atom_hybrid(int nlocal, char **values)
+int AtomVecAWSEM::data_atom_hybrid(int nlocal,  const std::vector<std::string> &values, int)
 {
-  molecule[nlocal] = ATOTAGINT(values[0]);
-  residue[nlocal] = ATOTAGINT(values[1]);
-  q[nlocal] = atof(values[2]);
+  molecule[nlocal] = ATOTAGINT(values[0].c_str());
+  residue[nlocal] = ATOTAGINT(values[1].c_str());
+  q[nlocal] = atof(values[2].c_str());
 
   num_bond[nlocal] = 0;
   num_angle[nlocal] = 0;

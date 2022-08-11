@@ -49,8 +49,8 @@ class AtomVecAWSEM : public AtomVec {
   virtual int pack_restart(int, double *);
   virtual int unpack_restart(double *);
   virtual void create_atom(int, double *);
-  virtual void data_atom(double *, imageint, char **);
-  virtual int data_atom_hybrid(int, char **);
+  virtual void data_atom(double *, imageint,  const std::vector<std::string> &);
+  virtual int data_atom_hybrid(int,  const std::vector<std::string> &, int);
   virtual void pack_data(double **);
   virtual int pack_data_hybrid(int, double *);
   virtual void write_data(FILE *, int, double **);

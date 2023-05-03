@@ -30,7 +30,7 @@ class Atom:
 		self.desc = desc
 
 if len(sys.argv)!=3:
-        print "\n"+sys.argv[0]+" Input_file Output_file\n"
+        print ("\n"+sys.argv[0]+" Input_file Output_file\n")
         sys.exit()
 
 infile = sys.argv[1]
@@ -101,7 +101,7 @@ def calc_rdfs():
 	N = len(atoms)
 	for i in range(N):
 		ity = atoms[i].type
-		if type_count.has_key(ity):
+		if ity in type_count:
 			type_count[ity] += 1
 		else:
 			type_count[ity] = 1
@@ -111,11 +111,11 @@ def calc_rdfs():
 			d = distance(i,j)
 			if d<=rmax:
 				bin = int(d/dr)
-				if not hist_map.has_key(ity):
+				if not ity in hist_map:
 					hist_map[ity] = {}
-				if not hist_map.has_key(jty):
+				if not jty in hist_map:
 					hist_map[jty] = {}
-				if not hist_map[ity].has_key(jty):
+				if not jty in hist_map[ity]:
 					hist_map[ity][jty] = nhist
 					hist_map[jty][ity] = nhist
 					hist_sums.append([0.0]*nbins)
@@ -173,15 +173,15 @@ if len(atoms)>0:
 
 if n_frames!=0: V_Avg /= n_frames
 
-print
-print "Number of Frames:", n_frames
-print "Avarage Volume:", V_Avg
-print "Number of Histogrames:", nhist
-print "Atom Descriptions: ", atom_desc
-print "Histogram Map:", hist_map
-print "Number of pairs:", hist_npairs
-print "Counted types:", type_count
-print "Histogram:", hist_sums
+print()
+print ("Number of Frames:", n_frames)
+print ("Avarage Volume:", V_Avg)
+print ("Number of Histogrames:", nhist)
+print ("Atom Descriptions: ", atom_desc)
+print ("Histogram Map:", hist_map)
+print ("Number of pairs:", hist_npairs)
+print ("Counted types:", type_count)
+print ("Histogram:", hist_sums)
 
 # Normalization
 for i in range(len(hist_sums)):
@@ -191,11 +191,11 @@ for i in range(len(hist_sums)):
 		hist_sums[i][j] *= n_frames*V_Avg/(type_count[itys[0]]*type_count[itys[1]]*dV)
 		if itys[0]==itys[1]: hist_sums[i][j] *=2
 
-print
-print "Histogram:", hist_sums
+print()
+print ("Histogram:", hist_sums)
 
-print
-print "Sorting histogram lists by type..."
+print()
+print ("Sorting histogram lists by type...")
 hist_list = []
 ikeys = sorted(hist_map.keys())
 for ik in ikeys:
@@ -204,7 +204,7 @@ for ik in ikeys:
 		ih = hist_map[ik][jk]
 		if ik<=jk:
 			hist_list.append(ih)
-print "Order of histogram to be outputed:", hist_list
+print ("Order of histogram to be outputed:", hist_list)
 
 # Output
 out = open(outfile, 'w')

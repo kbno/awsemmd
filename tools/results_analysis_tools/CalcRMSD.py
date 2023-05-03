@@ -95,15 +95,15 @@ class Atom:
 		f.write('\n')
 
 if len(sys.argv)!=4:
-	print "\nCalcRMSD.py PDB_Id Input_file(lammpstrj) Output_file(rmsd)\n"
+	print ("\nCalcRMSD.py PDB_Id Input_file(lammpstrj) Output_file(rmsd)\n")
 	exit()
 
 struct_id = sys.argv[1]
 if struct_id[-4:].lower()==".pdb":
-        pdb_file = struct_id
+	pdb_file = struct_id
 	struct_id = struct_id[:-4]
 else:
-        pdb_file = struct_id + ".pdb"
+	pdb_file = struct_id + ".pdb"
 
 lammps_file = sys.argv[2]
 
@@ -131,7 +131,7 @@ p = PDBParser(PERMISSIVE=1)
 ##
 def computeRMSD():
 	if len(ca_atoms)!=len(ca_atoms_pdb):
-		print "Error. Length mismatch!"
+		print ("Error. Length mismatch!")
 		exit()
 	l = len(ca_atoms)
 
@@ -153,7 +153,7 @@ for chain in chains:
 	for res in chain:
 		is_regular_res = res.has_id('CA') and res.has_id('O')
 		res_id = res.get_id()[0]
-        	if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L') and is_regular_res:
+		if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L') and is_regular_res:
 			ca_atoms_pdb.append(res['CA'].get_coord())
 
 lfile = open(lammps_file)

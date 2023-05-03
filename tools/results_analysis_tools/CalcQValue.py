@@ -91,10 +91,10 @@ class Atom:
 		f.write('\n')
 
 if len(sys.argv)!=4 and len(sys.argv)!=5 and len(sys.argv)!=6:
-	print "\nCalcQValue.py PDB_Id Input_file Output_file [sigma_exp] [-i]\n"
-	print
-	print "\t\t-i\tcalculate individual q values for each chain"
-	print
+	print ("\nCalcQValue.py PDB_Id Input_file Output_file [sigma_exp] [-i]\n")
+	print()
+	print ("\t\t-i\tcalculate individual q values for each chain")
+	print()
 	exit()
 
 splitq = False
@@ -138,8 +138,8 @@ p = PDBParser(PERMISSIVE=1)
 
 def computeQ():
 	if len(ca_atoms)!=len(ca_atoms_pdb):
-		print "Error. Length mismatch!"
-		print "Pdb: ", len(ca_atoms_pdb), "trj: ", len(ca_atoms)
+		print ("Error. Length mismatch!")
+		print ("Pdb: ", len(ca_atoms_pdb), "trj: ", len(ca_atoms))
 		exit()
 	Q = {}
 	norm = {}
@@ -152,7 +152,7 @@ def computeQ():
 				dr = r - rn
 				if splitq: index = pdb_chain_id[ia]
 				else: index = 1
-				if not Q.has_key(index):
+				if not index in Q:
 					Q[index] = 0.0
 					norm[index] = 0
 				Q[index] = Q[index] + exp(-dr*dr/(2*sigma_sq[ja-ia]))
@@ -170,7 +170,7 @@ for chain in chains:
 	for res in chain:
 		is_regular_res = res.has_id('CA') and res.has_id('O')
 		res_id = res.get_id()[0]
-	        if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L' or res_id=='H_CAS' ) and is_regular_res:
+		if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L' or res_id=='H_CAS' ) and is_regular_res:
 			ca_atoms_pdb.append(res['CA'].get_coord())
 			pdb_chain_id.append(ichain)
 

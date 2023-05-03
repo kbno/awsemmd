@@ -91,11 +91,11 @@ class Atom:
 		f.write('\n')
 
 if len(sys.argv)!=4 and len(sys.argv)!=5 and len(sys.argv)!=6:
-	print
-	print sys.argv[0], "PDB_Id1 PDB_Id2 Output_file [sigma_exp] [-i]\n"
-	print
-	print "\t\t-i\tcalculate q values for each chain and for their interfaces"
-	print
+	print()
+	print (sys.argv[0], "PDB_Id1 PDB_Id2 Output_file [sigma_exp] [-i]\n")
+	print()
+	print ("\t\t-i\tcalculate q values for each chain and for their interfaces")
+	print()
 	exit()
 
 splitq = False
@@ -139,8 +139,8 @@ p = PDBParser(PERMISSIVE=1)
 
 def computeQ():
 	if len(ca_atoms_pdb2)!=len(ca_atoms_pdb):
-		print "Error. Length mismatch!"
-		print "Pdb1: ", len(ca_atoms_pdb), "Pdb2: ", len(ca_atoms_pdb2)
+		print ("Error. Length mismatch!")
+		print ("Pdb1: ", len(ca_atoms_pdb), "Pdb2: ", len(ca_atoms_pdb2))
 		exit()
 	Q = {}
 	norm = {}
@@ -159,7 +159,7 @@ def computeQ():
 			else:
 				index = "ALL"
 
-			if not Q.has_key(index):
+			if not index in Q:
 				Q[index] = 0.0
 				norm[index] = 0
 			Q[index] = Q[index] + exp(-dr*dr/(2*sigma_sq[ja-ia]))
@@ -178,7 +178,7 @@ for chain in chains:
 	for res in chain:
 		is_regular_res = res.has_id('CA') and res.has_id('O')
 		res_id = res.get_id()[0]
-	        if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L' or res_id=='H_CAS' ) and is_regular_res:
+		if (res_id==' ' or res_id=='H_MSE' or res_id=='H_M3L' or res_id=='H_CAS' ) and is_regular_res:
 			ca_atoms_pdb.append(res['CA'].get_coord())
 			pdb_chain_id.append(ichain)
 
@@ -197,7 +197,7 @@ for chain in chains:
                         pdb_chain_id2.append(ichain)
 
 if len(ca_atoms_pdb) != len(ca_atoms_pdb2):
-	print "Error: Pdb structures have different lengths!"
+	print ("Error: Pdb structures have different lengths!")
 	exit() 
 
 for i in range(0, len(ca_atoms_pdb)+1):
@@ -212,5 +212,5 @@ if len(ca_atoms_pdb)>0:
 		out.write(str(round(q[key],3)))
 		out.write('\n')
 	out.write('\n')
-#print q[1]
+#print (q[1])
 out.close()

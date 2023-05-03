@@ -448,7 +448,7 @@ def lammps_load_and_convert(lammpsdump_file, atom_type, atom_desc, pdb_type, dna
                     # atoms2
                     # convert to PDB
                     # build DNA
-                    # print all to PDB
+                    # print (all to PDB)
                     # end build and re-initialization
                     elif item == "NUMBER OF ATOMS":
                         n_atoms = int(dump_line)

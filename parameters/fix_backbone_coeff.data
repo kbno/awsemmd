@@ -100,10 +100,10 @@ frustration_censoring_flag (if 1, must have frustration_censored_contacts.dat co
 
 NOTE: If you use AMH-Go you need to make sure that neigbour list cutoff and skin distance are set right
 
-[Fragment_Memory]-
-1.0
-1r69.mem
-1r69.gamma
+[Fragment_Memory]
+0.02
+!protein!.mem
+uniform.gamma
 
 #[Fragment_Memory_Table]
 scaling_factor
@@ -159,7 +159,7 @@ k_screening (1=screening on, 0=screening off)
 screening_length (in Angstroms)
 debye_huckel_min_sep (minimum sequence separation for DH interaction)
 
-[DebyeHuckel]-
+[DebyeHuckel]
 1.0 1.0 1.0
 1.0
 10.0

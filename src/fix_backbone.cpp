@@ -1614,20 +1614,9 @@ void FixBackbone::init()
   if (strstr(update->integrate_style,"respa"))
     nlevels_respa = ((Respa *) update->integrate)->nlevels;
 
-  int irequest = neighbor->request((void *) this);
-  neighbor->requests[irequest]->id = 1;
-  neighbor->requests[irequest]->pair = 0;
-  neighbor->requests[irequest]->fix = 1;
-  neighbor->requests[irequest]->half = 1;
-  neighbor->requests[irequest]->full = 0;
-  //  neighbor->requests[irequest]->occasional = 0;
+  neighbor->add_request(this,NeighConst::REQ_DEFAULT)->set_id(1);
 
-  int irequest_full = neighbor->request((void *) this);
-  neighbor->requests[irequest_full]->id = 2;
-  neighbor->requests[irequest_full]->pair = 0;
-  neighbor->requests[irequest_full]->fix = 1;
-  neighbor->requests[irequest_full]->half = 0;
-  neighbor->requests[irequest_full]->full = 1;
+  neighbor->add_request(this,NeighConst::REQ_FULL)->set_id(2);
 }
 
 /* ---------------------------------------------------------------------- */
